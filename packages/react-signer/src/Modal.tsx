@@ -21,7 +21,6 @@ import BN from 'bn.js';
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { createType } from '@polkadot/types';
 import { Button, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
@@ -102,7 +101,7 @@ async function makeExtrinsicSignature (
 ): Promise<void> {
   console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
-  const result = createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
+  const result = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
 
   if (isFunction(signerCb)) {
     signerCb(id, { id, ...result });
@@ -504,7 +503,7 @@ class Signer extends React.PureComponent<Props, State> {
       this.setState({
         isQrVisible: true,
         qrAddress: payload.address,
-        qrPayload: createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
+        qrPayload: registry.createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
         qrResolve: resolve,
         qrReject: reject
       });

@@ -8,7 +8,6 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { createType } from '@polkadot/types';
 import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
@@ -51,7 +50,7 @@ class Propose extends TxComponent<Props, State> {
               icon='sign-in'
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
-              params={method ? [createType(registry, 'Proposal', method)] : []}
+              params={method ? [registry.createType('Proposal', method)] : []}
               ref={this.button}
               withSpinner
             />

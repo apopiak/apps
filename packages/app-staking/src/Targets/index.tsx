@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Icon, InputBalance, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useDebounce, useFavorites, useCall } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
@@ -98,12 +97,12 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   const validators = sortValidators(
     electedInfo.info.map(({ accountId, exposure: _exposure, validatorPrefs }): ValidatorInfo => {
       const exposure = _exposure || {
-        total: createType(registry, 'Compact<Balance>'),
-        own: createType(registry, 'Compact<Balance>'),
-        others: createType(registry, 'Vec<IndividualExposure>')
+        total: registry.createType('Compact<Balance>'),
+        own: registry.createType('Compact<Balance>'),
+        others: registry.createType('Vec<IndividualExposure>')
       };
       const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
-        commission: createType(registry, 'Compact<Perbill>')
+        commission: registry.createType('Compact<Perbill>')
       };
       const bondOwn = exposure.own.unwrap();
       const bondTotal = exposure.total.unwrap();

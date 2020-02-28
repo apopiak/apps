@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { Button, Input } from '@polkadot/react-components';
 
@@ -91,7 +90,7 @@ class Add extends ContractModal<Props, State> {
 
     this.setState({ isBusy: true }, (): void => {
       store
-        .saveCode(createType(registry, 'Hash', codeHash), { abi, name, tags })
+        .saveCode(registry.createType('Hash', codeHash), { abi, name, tags })
         .then((): void => {
           this.setState(
             { isBusy: false },

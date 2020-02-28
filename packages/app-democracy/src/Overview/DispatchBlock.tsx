@@ -7,7 +7,7 @@ import { ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
-import { Option, StorageKey, Vec, createType } from '@polkadot/types';
+import { Option, StorageKey, Vec } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
 import DispatchEntry from './DispatchEntry';
@@ -30,7 +30,7 @@ export default function DispatchBlock ({ entries, keyPrefix, storageKey }: Props
 
   useEffect((): void => {
     if (keyPrefix && storageKey) {
-      setBlockNumber(createType(registry, 'BlockNumber', hexToU8a(
+      setBlockNumber(registry.createType('BlockNumber', hexToU8a(
         `0x${storageKey.toHex().replace(keyPrefix, '').substr(16)}`)
       ));
     }

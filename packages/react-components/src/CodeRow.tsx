@@ -8,7 +8,6 @@ import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { withMulti } from '@polkadot/react-api/hoc';
 import { classes, toShortAddress } from '@polkadot/react-components/util';
@@ -192,7 +191,7 @@ class CodeRow extends Row<Props, State> {
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName && codeHash) {
-      await contracts.saveCode(createType(registry, 'Hash', codeHash), { name });
+      await contracts.saveCode(registry.createType('Hash', codeHash), { name });
 
       this.setState({ isEditingName: false });
     }
@@ -202,7 +201,7 @@ class CodeRow extends Row<Props, State> {
     const { codeHash, tags } = this.state;
 
     if (codeHash) {
-      await contracts.saveCode(createType(registry, 'Hash', codeHash), { tags });
+      await contracts.saveCode(registry.createType('Hash', codeHash), { tags });
 
       this.setState({ isEditingTags: false });
     }

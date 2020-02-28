@@ -5,9 +5,9 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
-import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
-import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
+import { getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
+import { isBn } from '@polkadot/util';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -112,6 +112,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
           ? 'Vec<KeyValue>'
           : 'Vec';
 
+      case TypeDefInfo.Plain:
       default:
         return type;
     }
@@ -121,14 +122,14 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(registry, type as any);
+      const instance = registry.createType(type as any);
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);
 
       if (Component) {
         return Component;
-      } else if (instance instanceof BN) {
+      } else if (isBn(instance)) {
         return Amount;
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
         return findComponent(raw, overrides);
@@ -140,7 +141,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     // we only want to want once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
-      console.warn(`Cannot find component for ${type}, defaulting to Unknown`);
+      console.info(`No built-in renderer for ${type} from ${JSON.stringify(def)}, using defaults`);
     }
   }
 

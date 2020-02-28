@@ -5,7 +5,6 @@
 import { Props, RawParam } from '@polkadot/react-params/types';
 
 import React from 'react';
-import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -16,7 +15,7 @@ function onChange ({ onChange }: Props): (_: RawParam) => void {
     let proposal = null;
 
     if (isValid && value) {
-      proposal = createType(registry, 'Proposal', value);
+      proposal = registry.createType('Proposal', value);
     }
 
     onChange && onChange({

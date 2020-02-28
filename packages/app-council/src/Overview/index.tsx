@@ -9,7 +9,6 @@ import React from 'react';
 import { registry } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
 
 import Candidates from './Candidates';
 import Members from './Members';
@@ -23,11 +22,11 @@ interface Props {
 
 const NULL_INFO: DerivedElectionsInfo = {
   candidates: [],
-  candidateCount: createType(registry, 'u32'),
-  desiredSeats: createType(registry, 'u32'),
+  candidateCount: registry.createType('u32'),
+  desiredSeats: registry.createType('u32'),
   members: [],
   runnersUp: [],
-  termDuration: createType(registry, 'BlockNumber')
+  termDuration: registry.createType('BlockNumber')
 };
 
 export default function Overview ({ className }: Props): React.ReactElement<Props> {

@@ -11,7 +11,8 @@ import React from 'react';
 import { registry, withApi, withMulti } from '@polkadot/react-api';
 import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { createType } from '@polkadot/types';
+
+
 
 import translate from '../translate';
 
@@ -54,7 +55,7 @@ class Propose extends TxModal<Props, State> {
 
     return [
       threshold,
-      ...(method ? [createType(registry, 'Proposal', method)] : [])
+      ...(method ? [registry.createType('Proposal', method)] : [])
     ];
   }
 

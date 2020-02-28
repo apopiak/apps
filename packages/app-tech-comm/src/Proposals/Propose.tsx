@@ -11,7 +11,6 @@ import React, { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Extrinsic, InputNumber, TxModalNew as TxModal } from '@polkadot/react-components';
 import { useApi, useTx } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 
@@ -50,7 +49,7 @@ export default function Propose ({ onClose, memberCount = 0 }: Props): React.Rea
   }, [memberCount]);
 
   const _onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void =>
-    setProposal(method ? createType(registry, 'Proposal', method) : null);
+    setProposal(method ? registry.createType('Proposal', method) : null);
   const _onChangeThreshold = (threshold?: BN): void =>
     setThreshold([threshold || null, _hasThreshold(threshold)]);
 

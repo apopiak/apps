@@ -13,7 +13,6 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
-import { createType } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
@@ -40,8 +39,8 @@ interface InjectedAccountExt {
   };
 }
 
-const DEFAULT_DECIMALS = createType(registry, 'u32', 12);
-const DEFAULT_SS58 = createType(registry, 'u32', addressDefaults.prefix);
+const DEFAULT_DECIMALS = registry.createType('u32', 12);
+const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
 
@@ -76,7 +75,7 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   console.log('api: found chain', systemChain, JSON.stringify(properties));
 
   // explicitly override the ss58Format as specified
-  registry.setChainProperties(createType(registry, 'ChainProperties', { ...properties, ss58Format }));
+  registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));
 
   // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
   setSS58Format(ss58Format);

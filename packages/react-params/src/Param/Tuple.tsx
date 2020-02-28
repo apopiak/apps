@@ -7,7 +7,7 @@ import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
-import { createType, getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types';
 
 import Params from '../';
 import Base from './Base';
@@ -19,7 +19,7 @@ export default function Tuple (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     try {
-      const rawType = createType(registry, type.type as any).toRawType();
+      const rawType = registry.createType(type.type as any).toRawType();
       const typeDef = getTypeDef(rawType);
 
       setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));

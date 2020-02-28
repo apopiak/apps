@@ -8,7 +8,7 @@ import { ParamDef, Props, RawParam } from '../types';
 import React, { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Dropdown } from '@polkadot/react-components';
-import { Enum, createType, getTypeDef } from '@polkadot/types';
+import { Enum, getTypeDef } from '@polkadot/types';
 
 import Params from '../';
 import Bare from './Bare';
@@ -26,7 +26,7 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
   const [{ options, subTypes }, setOptions] = useState<{ options: Option[]; subTypes: TypeDef[] }>({ options: [], subTypes: [] });
 
   useEffect((): void => {
-    const rawType = createType(registry, type.type as any).toRawType();
+    const rawType = registry.createType(type.type as any).toRawType();
     const typeDef = getTypeDef(rawType);
     const subTypes = typeDef.sub as TypeDef[];
 

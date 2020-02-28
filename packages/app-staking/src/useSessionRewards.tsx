@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { useApi, useCacheKey, useIsMountedRef } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
 interface SerializedSlash {
@@ -36,17 +35,17 @@ function fromJSON (sessions: Serialized[]): SessionRewards[] {
 
   return sessions
     .map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): SessionRewards => ({
-      blockHash: createType(registry, 'Hash', blockHash),
-      blockNumber: createType(registry, 'BlockNumber', blockNumber),
+      blockHash: registry.createType('Hash', blockHash),
+      blockNumber: registry.createType('BlockNumber', blockNumber),
       isEventsEmpty,
-      parentHash: createType(registry, 'Hash', parentHash),
-      reward: createType(registry, 'Balance', reward),
-      sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
+      parentHash: registry.createType('Hash', parentHash),
+      reward: registry.createType('Balance', reward),
+      sessionIndex: registry.createType('SessionIndex', sessionIndex),
       slashes: slashes.map(({ accountId, amount }): Slash => ({
-        accountId: createType(registry, 'AccountId', accountId),
-        amount: createType(registry, 'Balance', amount)
+        accountId: registry.createType('AccountId', accountId),
+        amount: registry.createType('Balance', amount)
       })),
-      treasury: createType(registry, 'Balance', treasury)
+      treasury: registry.createType('Balance', treasury)
     }))
     .filter(({ parentHash }): boolean => !parentHash.isEmpty)
     .reverse()
@@ -128,12 +127,12 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
       blockNumber: headers[index].number.unwrap(),
       isEventsEmpty: events[index].length === 0,
       parentHash: headers[index].parentHash,
-      reward: rewards[index][0] || createType(registry, 'Balance'),
-      sessionIndex: createType(registry, 'SessionIndex', u8aToU8a(
+      reward: rewards[index][0] || registry.createType('Balance'),
+      sessionIndex: registry.createType('SessionIndex', u8aToU8a(
         value.isSome ? value.unwrap() : new Uint8Array([])
       )),
       slashes: slashes[index],
-      treasury: rewards[index][1] || createType(registry, 'Balance')
+      treasury: rewards[index][1] || registry.createType('Balance')
     }));
 }
 
